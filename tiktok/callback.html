@@ -1,0 +1,15 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Autorización de TikTok</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font-family:system-ui,-apple-system,sans-serif;max-width:680px;margin:0 auto;padding:24px 16px;color:#1F2A2A;background:#F6F1EA;line-height:1.55}h1{font-family:Georgia,serif;color:#0E8E8B}a{color:#0E8E8B}.btn{display:inline-block;background:#20CFCC;color:#0b2b2a;padding:12px 20px;border-radius:999px;font-weight:600;text-decoration:none}code{background:#fff;padding:2px 6px;border-radius:6px;word-break:break-all}.caja{background:#fff;border-radius:14px;padding:16px;margin:16px 0}</style></head><body>
+<h1>Autorización de TikTok</h1>
+<div id="r" class="caja">Leyendo respuesta…</div>
+<script>
+const q = new URLSearchParams(location.search), r = document.getElementById("r");
+let st = null; try { st = sessionStorage.getItem("tt_state"); } catch (e) {}
+if (q.get("error")) { r.textContent = "TikTok devolvió un error: " + q.get("error") + " " + (q.get("error_description")||""); }
+else if (!q.get("code")) { r.textContent = "No llegó ningún código de autorización."; }
+else if (st && q.get("state") !== st) { r.textContent = "El estado no coincide: por seguridad, vuelve a iniciar la conexión."; }
+else {
+  r.innerHTML = '<p><b>Listo.</b> Copia este código (vence en pocos minutos) y pégalo en GitHub → Actions → <b>Autorizar TikTok</b> → Run workflow:</p><p><code id="c"></code></p><p><button id="b" class="btn">Copiar código</button></p><p>No lo compartas por chat ni correo.</p>';
+  document.getElementById("c").textContent = q.get("code");
+  document.getElementById("b").onclick = () => navigator.clipboard.writeText(q.get("code"));
+}
+</script></body></html>

@@ -1,0 +1,21 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><title>SBV Publicador para TikTok</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font-family:system-ui,-apple-system,sans-serif;max-width:680px;margin:0 auto;padding:24px 16px;color:#1F2A2A;background:#F6F1EA;line-height:1.55}h1{font-family:Georgia,serif;color:#0E8E8B}a{color:#0E8E8B}.btn{display:inline-block;background:#20CFCC;color:#0b2b2a;padding:12px 20px;border-radius:999px;font-weight:600;text-decoration:none}code{background:#fff;padding:2px 6px;border-radius:6px;word-break:break-all}.caja{background:#fff;border-radius:14px;padding:16px;margin:16px 0}</style></head><body>
+<img src="icono-1024.png" alt="Salud y Bienestar Veterinario" width="96" height="96">
+<h1>SBV Publicador para TikTok</h1>
+<p>Herramienta de <b>Salud y Bienestar Veterinario</b> (saludybienestarveterinario.cl) para preparar las publicaciones de la marca en TikTok.</p>
+<p>Cada día envía la publicación programada (imágenes o video, con su texto y hashtags) a la <b>bandeja de entrada de TikTok</b> de la cuenta de la marca como borrador. Una persona del equipo abre la notificación, revisa el contenido, elige la privacidad y la música, y publica desde la app de TikTok. La herramienta no publica de forma directa.</p>
+<p><a class="btn" id="conectar" href="#">Conectar cuenta de TikTok</a></p>
+<p><a href="privacidad.html">Política de privacidad</a> · <a href="terminos.html">Términos de servicio</a></p>
+<script>
+// client_key es público (identifica la app); se completa al crear la app en TikTok for Developers.
+const CLIENT_KEY = "PENDIENTE";
+const REDIRECT = "https://saludybienestarvet.github.io/sbv-medios/tiktok/callback.html";
+document.getElementById("conectar").addEventListener("click", e => {
+  e.preventDefault();
+  if (CLIENT_KEY === "PENDIENTE") { alert("La app aún no está configurada."); return; }
+  const state = crypto.getRandomValues(new Uint32Array(2)).join("");
+  sessionStorage.setItem("tt_state", state);
+  const p = new URLSearchParams({client_key: CLIENT_KEY, scope: "user.info.basic,video.upload",
+    response_type: "code", redirect_uri: REDIRECT, state, disable_auto_auth: "1"});
+  location.href = "https://www.tiktok.com/v2/auth/authorize/?" + p;
+});
+</script></body></html>
